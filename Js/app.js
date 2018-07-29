@@ -1,9 +1,10 @@
 
-var scores , roundScore , activePleyer ;
+var scores , roundScore , activePleyer , step;
 
 
 scores = [0,0];
 roundScore = 0;
+step = 1;
 activePleyer = 0 ;
 
 
@@ -23,8 +24,9 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
 	diceDom.src = "Images/dice-"+dice+".png";
 
 	if (dice !== 1){
-		roundScore +=dice;
+		roundScore +=(dice*step);
 		document.querySelector("#current-"+activePleyer).textContent = roundScore;
+		step++;
 	}
 	else{
 		Next_pleyer();
@@ -36,6 +38,10 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
 document.querySelector(".btn-hold").addEventListener("click",function () {
 	scores[activePleyer] += roundScore;
 	document.querySelector("#score-"+activePleyer).textContent = scores[activePleyer] ;
+	if (scores[activePleyer] >= 200 ) {
+		document.querySelector("#name-"+activePleyer).innerHTML = "<b style='color : red'>WINNER</b>" ;
+		document.querySelector(".dice").style.display = 'none';		
+	};
 	Next_pleyer();
 
 } );
@@ -47,5 +53,6 @@ function Next_pleyer() {
 	document.getElementById("current-1").textContent = 0 ;
 	document.querySelector(".player-1-panel").classList.toggle("active");
 	document.querySelector(".player-0-panel").classList.toggle("active");
-	document.querySelector(".dice").style.display = 'none';			
+	document.querySelector(".dice").style.display = 'none';		
+	step = 1 ;	
 }
